@@ -48,11 +48,13 @@
 		<Unit filename="include/Map.h" />
 		<Unit filename="include/Network.h" />
 		<Unit filename="include/Player.h" />
+		<Unit filename="include/Queue.h" />
 		<Unit filename="include/World.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Map.cpp" />
 		<Unit filename="src/Network.cpp" />
 		<Unit filename="src/Player.cpp" />
+		<Unit filename="src/Queue.cpp" />
 		<Unit filename="src/World.cpp" />
 		<Extensions>
 			<code_completion />
