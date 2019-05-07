@@ -1,15 +1,16 @@
- #ifndef NETWORK_H
+#ifndef NETWORK_H
 #define NETWORK_H
-using namespace std;
+#include "Queue.h"
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+template <typename T>
 using namespace sf;
+using namespace std;
 
 class Network
 {
 public:
-    Network(TcpSocket* s, bool server, queue<string>& queue));
+    Network();
     virtual ~Network();
 
     void Start();

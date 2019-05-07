@@ -11,7 +11,7 @@ Network::~Network()
     //dtor
 }
 /*
-void Network::Start()
+void Network::Start() //show up first to let the user choose either the server or client
 {
     cout<< "Press 1 for client or 2 for server " <<endl;
     char input;
@@ -33,7 +33,7 @@ void Network::Start()
 
 
 
-void Network::Server()
+void Network::Server() //is the server side, sends a message to the client
 {
     sf::UdpSocket socket;
     if (socket.bind(4300) != sf::Socket::Done)
@@ -56,7 +56,7 @@ void Network::Server()
         cerr<< "Fail sending data" <<endl;
 
 }
-void Network::Client()
+void Network::Client() //is the client side, recives the message from the server and sends it back
 {
 
     cout<< "Client" <<endl;
@@ -78,31 +78,6 @@ void Network::Client()
 //chat server
 
 
-
-
-
-
-void Network::recv_loop()
-{
-    char buffer[256];
-    while(1)
-    {
-        memset(buffer, 0, 256);
-        size_t received;
-        Socket::Status status = socket->receive(buffer, 256, received);
-        if (status != Socket::Done)
-        {
-            perror("Receive");
-            cerr << "Receive:" << status << endl;
-            return;
-        }
-
-        if (ifServer)
-        {
-            queue.push(string(buffer));
-        }
-    }
-}
 void Network::accepter(Queue<string> &queue, list<TcpSocket*> &sockets,mutex &m)
 {
     TcpListener listner;
@@ -137,10 +112,7 @@ void Network::server_main();
     Queue<std::string> queue;
     std::mutex m;
     std::list<sf::TcpSocket*> sockets;
-    std::thread(accepter,
-                std::ref(queue),
-                std::ref(sockets),
-                std::ref(m)).detach();
+    std::thread(accepter,std::ref(queue),std::ref(sockets),std::ref(m)).detach();
     while(1)
     {
         std::string s = queue.pop();

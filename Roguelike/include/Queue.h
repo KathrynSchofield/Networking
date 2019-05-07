@@ -1,19 +1,21 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 template <typename T>
-using namespace std;
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#include <condition_variable>
+#include <mutex>
+#include <queue>
 #include <SFML/Network.hpp>
 using namespace sf;
+using namespace std;
 
-class Queue
+class Queue //used to shared received messages
 {
 public:
     Queue();
     virtual ~Queue();
 
-    T pop()
+    T pop() //like bounded buffers, useful for send threads
     {
         unique_lock<mutex> mlock(mutex_);
         cond_.wait(mlock, [this] {return !queue_.empty();});
@@ -21,7 +23,7 @@ public:
         queue_.pop();
         return val;
     }
-    void pop(T& item)
+    void pop(T& item) //returns on an empty queue
     {
         unique_lock<mutex> mlock(mutex_);
         if(queue_.empty())
@@ -32,7 +34,7 @@ public:
         queue_.pop();
     }
 
-    void ush(const T& item)
+    void push(const T& item) //stops waiting on the full list condition
     {
         unique_lock<mutex> mlock(mutex_);
         queue_.push(item);
